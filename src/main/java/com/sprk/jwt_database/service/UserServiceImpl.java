@@ -1,5 +1,6 @@
 package com.sprk.jwt_database.service;
 
+import com.sprk.jwt_database.dto.UserDto;
 import com.sprk.jwt_database.model.Roles;
 import com.sprk.jwt_database.model.User;
 import com.sprk.jwt_database.repository.UserRepository;
@@ -23,16 +24,20 @@ public class UserServiceImpl {
 
     @Autowired
     private final PasswordEncoder passwordEncoder;
-    public User register(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getRole().equals("ADMIN")||user.getRole().equals("admin")||user.getRole().equals("Admin")){
-            user.setRole(Roles.ADMIN);
-        } else if (user.getRole().equals("USER")||user.getRole().equals("user")||user.getRole().equals("User")) {
-            user.setRole(Roles.USER);
-        }else{
-            throw new RuntimeException("Invalid Role");
+    public User register(UserDto userDto) {
+        User user=new User();
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setName(userDto.getName());
+        if (userDto.getRole().equals("ADMIN")||userDto.getRole().equals("admin")||userDto.getRole().equals("Admin")){
+
+        user.setRole((Roles.ADMIN));
+        } else if (userDto.getRole().equals("USER")||userDto.getRole().equals("user")||userDto.getRole().equals("User")) {
+        user.setRole((Roles.USER));
+
+        }else {
+            throw new RuntimeException("Invalid User");
         }
-        return repository.save(user);
+        return user;
     }
 
     public List<User> getallUser() {

@@ -1,5 +1,6 @@
 package com.sprk.jwt_database.controller;
 
+import com.sprk.jwt_database.dto.UserDto;
 import com.sprk.jwt_database.model.User;
 import com.sprk.jwt_database.service.UserServiceImpl;
 import com.sprk.jwt_database.util.JwtUtil;
@@ -24,8 +25,8 @@ public class UserController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public String register(@RequestBody User user){
-       User user1= service.register(user);
+    public String register(@RequestBody UserDto userDto){
+       User saved= service.register(userDto);
        return "user register successfully";
     }
 
